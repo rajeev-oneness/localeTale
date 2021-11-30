@@ -23,6 +23,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        switch (Auth::user()->user_role) {
+            case 1:
+                return redirect('admin/dashboard');break;
+            case 2:
+                return redirect('business/dashboard');break;
+            case 3:
+                return view('home');
+        }
+    }
+
+    public function logout(Request $req)
+    {
+        auth()->guard()->logout();
+        $req->session()->invalidate();
+        return redirect('/');
     }
 }
