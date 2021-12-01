@@ -1,16 +1,19 @@
 <?php
 
-	function successResponse($msg = '', $data = [], $status = 200)
+	// api hit success response
+	function successResponse(string $msg = '', array $data = [], int $status = 200)
 	{
 		return response()->json(['error' => false, 'status' => $status, 'message' => $msg, 'data' => $data]);
 	}
 
-	function errorResponse($msg = '', $data = [], $status = 200)
+	// api hit error response
+	function errorResponse(string $msg = '', array $data = [], int $status = 200)
 	{
 		return response()->json(['error' => true, 'status' => $status, 'message' => $msg, 'data' => $data]);
 	}
 
-	function sendMail($data, $templateName, $to, $subject)
+	// mail send helper
+	function sendMail(array $data, string $templateName, string $to, string $subject)
 	{
 		$newMail = new \App\Models\EmailLog();
 		$newMail->from = 'onenesstechsolution@gmail.com';
@@ -25,8 +28,8 @@
 		});
 	}
 
-
-	function imageUpload($image, $folder = 'image')
+	// file upload
+	function imageUpload(object $image, string $folder = 'image')
 	{
 		$random = randomGenerator();
 		$image->move('upload/' . $folder . '/', $random . '.' . $image->getClientOriginalExtension());
@@ -34,7 +37,8 @@
 		return $imageurl;
 	}
 
-	function generateUniqueAlphaNumeric($length = 8)
+	// generate alpha numeric unique string
+	function generateUniqueAlphaNumeric(int $length = 8)
 	{
 		$random_string = '';
 		for ($i = 0; $i < $length; $i++) {
@@ -45,7 +49,8 @@
 		return $random_string;
 	}
 
-	function emptyCheck($string, $date = false)
+	// field empty check 
+	function emptyCheck(string $string, bool $date = false)
 	{
 		if ($date) {
 			return !empty($string) ? $string : '0000-00-00';
@@ -53,6 +58,7 @@
 		return !empty($string) ? $string : '';
 	}
 
+	// random string generate
 	function randomGenerator()
 	{
 		return uniqid() . '' . date('ymdhis') . '' . uniqid();
@@ -64,12 +70,13 @@
 		return $amount;
 	}
 
-	function words($string, $words = 100)
+	// limit words
+	function words(string $string, int $words = 100)
 	{
 		return Str::limit($string, $words);
 	}
 
-	function strQuotationCheck($string = "")
+	function strQuotationCheck(string $string = "")
 	{
 		$returnString = '';
 		for ($i = 0; $i < strlen($string); $i++) {
