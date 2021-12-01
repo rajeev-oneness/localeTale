@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', [DefaultController::class, 'welcome'])->name('welcome');
 Route::get('administrator',[LoginController::class,'adminLoginView'])->name('admin.login');
 
-Auth::routes(['register' => false,'logout' => false]);
+Auth::routes(['login' => false,'register' => false,'logout' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::any('logout', [HomeController::class, 'logout'])->name('logout');
