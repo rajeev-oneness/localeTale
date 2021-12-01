@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>{{ config('app.name', 'localTale') }} - @yield('title')</title>
-	<link rel="stylesheet" type="text/css" href="{{asset(design/css/custom.css)}}">
-
+	<link rel="stylesheet" type="text/css" href="{{asset('design/css/bootstrap-4.6.0.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('design/css/custom.css')}}">
 </head>
 <body>
 	<!-- loader -->
@@ -16,11 +17,16 @@
 
     <!-- Sidebar Content -->
     @include('auth.layouts.sidebar')
+	
+	<!-- Main Content -->
+    @yield('content')
 
     <!-- Footer Content -->
     @include('auth.layouts.footer')
 
-	<script src="{{asset('design/js/sweetalert.min.js')}}"></script>
+	<script src="{{asset('design/js/jquery-3.6.0.js')}}"></script>
+    <script src="{{asset('design/js/bootstrap4.6.1.bundle.min.js')}}"></script>
+    <script src="{{asset('design/js/sweetalert.min.js')}}"></script>
     <script src="{{asset('design/js/jquery.sumoselect.min.js')}}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -29,7 +35,7 @@
                 $('button').attr('disabled', 'disabled');
                 $('.loading-data').show();
             });
-            
+
             @if(Session::has('Success'))
 	            toastFire('success', '{{Session::get('success')}}');
 	        @elseif(Session::has('Errors'))
