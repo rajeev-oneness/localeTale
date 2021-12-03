@@ -28,6 +28,50 @@
 		});
 	}
 
+	function getUserDeviceTokens($user)
+	{
+		$deviceTokens = \App\Models\OAuthAccessToken::select('device_token')->where('user_id',$user->id)
+			->where('revoked',false)->groupBy('device_token')->pluck('device_token');
+		return $deviceTokens;
+	}
+
+	function sendPushNotification($deviceType='web',$deviceToken=[],$payload = [])
+	{
+		// device token must be an array
+		if(count($deviceToken) > 0){
+			$master = \App\Models\Master::first();
+			if ($master && $master->google_PUSH_API_ACCESS_KEY != '') {
+				$API_ACCESS_KEY = $master->google_PUSH_API_ACCESS_KEY;
+				$firebaseToken = $deviceToken;
+		        $data = [
+		            "registration_ids" => $firebaseToken,
+		            "notification" => [
+						'data' => $payload,
+		            ],
+		        ];
+		        $headers = [
+		            'Authorization: key=' . $API_ACCESS_KEY,
+		            'Content-Type: application/json',
+		        ];
+		        $ch = curl_init();
+		        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+		        curl_setopt($ch, CURLOPT_POST, true);
+		        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+		        $response = curl_exec($ch);
+				$newPush = new \App\Models\PushNotification;
+				$newPush->message_id = json_encode($response);
+				$newPush->device_type = $deviceType;
+				$newPush->device_token = json_encode($deviceToken);
+				$newPush->payload = json_encode($data);
+				$newPush->save();
+				return $newPush;
+			}
+		}
+	}
+
 	// file upload
 	function imageUpload(object $image, string $folder = 'image')
 	{
