@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\User, Hash;
 
 class LoginController extends Controller
 {
@@ -36,15 +37,10 @@ class LoginController extends Controller
     public function login(Request $req)
     {
         $req->validate([
-            'role' => 'required|string|in:administrator,others',
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        $userRole = [2,3];
-        if($req->role == 'administrator'){
-            $userRole = [1];
-        }
-        $user = User::where('email',$req->email)->whereIn('user_role',$userRole)->first();
+        $user = User::where('email',$req->email)->first();
         if($user){
             if(Hash::check($req->password,$user->password)){
                 if($user->status == 1){
@@ -59,5 +55,12 @@ class LoginController extends Controller
         }
         $errors['email'] = 'this email is not register with us';
         return back()->withErrors($errors)->withInput($req->all());
+    }
+
+    public function logout(Request $req)
+    {
+        auth()->guard()->logout();
+        $req->session()->invalidate();
+        return redirect('/');
     }
 }

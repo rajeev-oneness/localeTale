@@ -8,14 +8,13 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', [DefaultController::class, 'welcome'])->name('welcome');
 Route::get('administrator',[LoginController::class,'adminLoginView'])->name('admin.login');
 
-Auth::routes(['login' => false,'register' => false,'logout' => false]);
+Auth::routes(['login' => true,'register' => true,'logout' => false,'verify' => true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::any('logout', [HomeController::class, 'logout'])->name('logout');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::any('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Auth Routes
-Route::group(['prefix' => 'user','middleware' => 'auth'], function () {
-    
+Route::group(['prefix' => 'user','middleware' => ['auth','verified']], function () {
 
     /*********************** Admin Routes ************************/
     Route::group(['prefix' => 'admin',], function () {

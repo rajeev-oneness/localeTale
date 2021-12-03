@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth, Session, Hash;
 
 class HomeController extends Controller
 {
@@ -13,7 +14,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','verified']);
+        // for confirm Password middleware is : "password.confirm"
     }
 
     /**
@@ -31,12 +33,6 @@ class HomeController extends Controller
             case 3:
                 return view('home');
         }
-    }
-
-    public function logout(Request $req)
-    {
-        auth()->guard()->logout();
-        $req->session()->invalidate();
-        return redirect('/');
+        return view('home');
     }
 }
