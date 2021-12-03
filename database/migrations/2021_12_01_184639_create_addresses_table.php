@@ -34,8 +34,7 @@ class CreateAddressesTable extends Migration
             'user_id' => 1,
             'type' => 1,
         ];
-
-        DB::table('addresses')->insert($data);
+        \App\Models\Address::insert($data);
     }
 
     /**

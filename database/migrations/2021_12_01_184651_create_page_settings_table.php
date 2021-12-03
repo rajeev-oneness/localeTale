@@ -59,8 +59,7 @@ class CreatePageSettingsTable extends Migration
                 'page_key' => 'events',
             ],
         ];
-
-        DB::table('page_settings')->insert($data);
+        \App\Models\PageSetting::insert($data);
     }
 
     /**

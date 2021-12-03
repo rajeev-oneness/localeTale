@@ -24,8 +24,7 @@ class CreateCountriesTable extends Migration
         });
 
         $data = ['name'=>'India', 'iso' => 'IN', 'code' => '+91'];
-
-        DB::table('countries')->insert($data);
+        \App\Models\Country::insert($data);
     }
 
     /**

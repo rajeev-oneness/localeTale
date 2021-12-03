@@ -23,9 +23,15 @@ class CreateStatesTable extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
 
-        $data = ['name'=>'West Bengal', 'country_id' => 1];
+        $data = [
+            ['name'=>'West Bengal', 'country_id' => 1],
+            ['name'=>'Bihar', 'country_id' => 1],
+            ['name'=>'Delhi', 'country_id' => 1],
+            ['name'=>'Mumbai', 'country_id' => 1],
+            ['name'=>'Karnatka', 'country_id' => 1],
+        ];
 
-        DB::table('states')->insert($data);
+        \App\Models\State::insert($data);
     }
 
     /**

@@ -26,7 +26,7 @@ class CreateUserRolesTable extends Migration
             ['name' => 'Business'],
             ['name' => 'Customer'],
         ];
-        DB::table('user_roles')->insert($data);
+        \App\Models\UserRole::insert($data);
     }
 
     /**
