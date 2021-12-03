@@ -19,7 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
             $table->string('message');
-            $table->tinyInteger('read',1)->default(0);
+            $table->tinyInteger('read')->default(0);
             $table->unsignedBigInteger('from_user');
             $table->longText('payload');
             $table->string('timestamp');

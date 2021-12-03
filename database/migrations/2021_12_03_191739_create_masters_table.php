@@ -29,7 +29,7 @@ class CreateMastersTable extends Migration
             'otp' => rand(1000,9999),
             'google_PUSH_API_ACCESS_KEY' => "AAAAdyiJuok:APA91bFe1gSsWNntHEKV5hAAp7dkRP8XrZLxIbXvI_hIKKiXUJbalEm1s0GAIdlCOu8I9gGjnWga-WeL1jkfOaBm1kzQ2Lqr2tiht3S8iw7Lu5RZy9DL32tlfBi5BHxYJ2sQhpNP7DHa",
         ];
-        \App\Models\Master::create($data);
+        \App\Models\Master::insert($data);
     }
 
     /**
