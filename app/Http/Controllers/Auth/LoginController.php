@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\User, Hash;
+use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
@@ -29,18 +30,31 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function adminLoginView(Request $req)
+    public function userLoginView(Request $req)
     {
-        return view('auth.adminLogin');
+        $pageTitle = 'Customer Login';$userRole = 3;
+        switch (Route::currentRouteName()) {
+            case 'admin.login': $pageTitle = 'Admin Login'; $userRole = 1; break;
+            case 'b2b.login': $pageTitle = 'Business Login'; $userRole = 2; break;
+            case 'customer.login': $pageTitle = 'Customer Login'; $userRole = 3; break;
+        }
+        return view('auth..login.userLoginView',compact('pageTitle','userRole'));
     }
 
     public function login(Request $req)
     {
         $req->validate([
+            'user_role' => 'required|in:admin,business,customer',
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        $user = User::where('email',$req->email)->first();
+        $userRole = 3;
+        switch ($req->user_role) {
+            case 'admin':$userRole = 1;break;
+            case 'business':$userRole = 2;break;
+            case 'customer':$userRole = 3;break;
+        }
+        $user = User::where('email',$req->email)->where('user_role',$userRole)->first();
         if($user){
             if(Hash::check($req->password,$user->password)){
                 if($user->status == 1){
