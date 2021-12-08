@@ -27,7 +27,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $pageTitle = 'Customer Login';$userRole = 3;
+        $pageTitle = 'Customer Login';$userRole = 'customer';
         return view('auth.login',compact('pageTitle','userRole'));
     }
 
@@ -35,9 +35,9 @@ class LoginController extends Controller
     {
         $pageTitle = 'Customer Login';$userRole = 3;
         switch (Route::currentRouteName()) {
-            case 'admin.login': $pageTitle = 'Admin Login'; $userRole = 1; break;
-            case 'business.login': $pageTitle = 'Business Login'; $userRole = 2; break;
-            case 'customer.login': $pageTitle = 'Customer Login'; $userRole = 3; break;
+            case 'admin.login': $pageTitle = 'Admin Login'; $userRole = 'admin'; break;
+            case 'business.login': $pageTitle = 'Business Login'; $userRole = 'business'; break;
+            case 'customer.login': $pageTitle = 'Customer Login'; $userRole = 'customer'; break;
         }
         return view('auth.login',compact('pageTitle','userRole'));
     }
