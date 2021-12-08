@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware\Custom;
 
-use Closure;
+use Closure, Auth, Session;
 use Illuminate\Http\Request;
 
 class Admin
