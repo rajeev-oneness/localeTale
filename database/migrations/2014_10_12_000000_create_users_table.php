@@ -48,7 +48,7 @@ class CreateUsersTable extends Migration
                 'email' => 'admin@localtale.com',
                 'password' => Hash::make('secret'),
                 'is_verified' => 1,
-                'email_verified_at' => date('Y-m-d h:i:s'),
+                'email_verified_at' => date('Y-m-d H:i:s'),
             ],
         ];
         foreach ($data as $key => $user) {

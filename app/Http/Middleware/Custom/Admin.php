@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware\Custom;
 
-use Closure, Auth, Session;
+use Closure;
 use Illuminate\Http\Request;
 
-class Customer
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,7 @@ class Customer
      */
     public function handle(Request $request, Closure $next)
     {
-        /***** THis Middleware will work for User role Customer or Admin Role ******/
-        if(Auth::user() && (Auth::user()->user_role == 3 || Auth::user()->user_role == 1)){
+        if(Auth::user() && Auth::user()->user_role == 1){
             return $next($request);
         }
         Session::flash('error', 'you are not authorise');

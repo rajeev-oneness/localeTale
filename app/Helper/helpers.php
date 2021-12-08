@@ -99,7 +99,7 @@
 		if ($date) {
 			return !empty($string) ? $string : '0000-00-00';
 		}
-		return !empty($string) ? $string : '';
+		return !empty($string) ? strQuotationCheck($string) : '';
 	}
 
 	// random string generate
